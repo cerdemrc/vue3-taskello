@@ -1,11 +1,12 @@
 import { createStore } from 'vuex'
+import { createLogger } from 'vuex'
 
 export const store = createStore({
-    state:{
+    state: () => ({
         items: [
             {
                 id: 0,
-                color: "gray",
+                color: "purple",
                 task: "Go shopping",
                 list: 1,
             },
@@ -21,8 +22,14 @@ export const store = createStore({
                 task: "Feed Dog",
                 list: 3,
             },
+            {
+                id: 3,
+                color: "orange",
+                task: "deneme",
+                list: 3,
+            },
           ],
-    },
+    }),
     getters:{
         getAllTasks(state){
             //const tasks = JSON.parse(localStorage.getItem("tasks"));
@@ -56,8 +63,7 @@ export const store = createStore({
             //localStorage.setItem("tasks", JSON.stringify(state.items))
         }
     },
-    actions:{
-    }
+    plugins: [createLogger()]
 })
 
 export default store;
