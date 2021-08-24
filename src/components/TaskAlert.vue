@@ -1,22 +1,25 @@
 <template>
   <div class="task-alert">
     <div class="container">
-      <!--<h2 v-if="getTodoCount > 0">
-        You've got
-        <span class="task-count">{{ getTodoCount }} task</span>
-        today
-      </h2>-->
-      <h2>You've got <span class="task-count">4 task</span> today</h2>
+      <h2>
+        You've got <span class="task-count">{{ getTodoCount }} task</span> today
+      </h2>
     </div>
   </div>
 </template>
 
 <script>
+import { computed } from "vue";
+import { useStore } from "vuex";
 export default {
-  computed: {
-    getTodoCount() {
-      return this.$store.getters.getTodoCount;
-    },
+  setup() {
+    const store = useStore();
+
+    const getTodoCount = computed(function () {
+      return store.getters.getTodoCount;
+    });
+
+    return { getTodoCount };
   },
 };
 </script>
