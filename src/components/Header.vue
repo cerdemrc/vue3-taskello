@@ -44,7 +44,7 @@
               </select>
             </div>
           </div>
-          <div class="col-12 mt-5 d-flex justify-content-end gap-2">
+          <div class="col-12 mt-4 d-flex justify-content-end gap-2">
             <button type="button" class="btn close-btn" @click="closeDialog">
               Close
             </button>
@@ -72,7 +72,7 @@ export default {
   setup() {
     const store = useStore();
     const dialog = ref(false);
-    const newTask = reactive({ task: "", list: "List", color: "Color" });
+    const newTask = reactive({ task: "", list: "1", color: "black" });
     const lists = reactive([
       { list: "Todo", id: 1 },
       { list: "In Progress", id: 2 },
@@ -99,16 +99,7 @@ export default {
 
     function saveTask() {
       const id = Math.floor(Math.random() * 100000);
-      if (newTask.color == "Color") {
-        const defaultTask = {
-          task: newTask.task,
-          list: 1,
-          color: "black",
-        };
-        store.commit("saveTask", { ...defaultTask, id });
-      } else {
-        store.commit("saveTask", { ...newTask, id });
-      }
+      store.commit("saveTask", { ...newTask, id });
       dialog.value = false;
       cleanItem();
     }
@@ -120,8 +111,8 @@ export default {
 
     function cleanItem() {
       newTask.task = "";
-      newTask.list = "List";
-      newTask.color = "Color";
+      newTask.list = "1";
+      newTask.color = "black";
     }
 
     return {
