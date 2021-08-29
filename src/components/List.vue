@@ -14,7 +14,13 @@
           }}</span>
         </div>
         <draggable>
-          <div class="card-middle" v-for="item in getTask(1)" :key="item.id">
+          <div
+            class="card-middle"
+            v-for="item in getTask(1)"
+            :key="item.id"
+            draggable
+            @dragstart="startDrag($event, item)"
+          >
             <div
               class="card-content"
               :style="{ 'background-color': item.color }"
@@ -102,7 +108,6 @@
 <script>
 import { computed } from "vue";
 import { useStore } from "vuex";
-import { mapGetters } from "vuex";
 import { VueDraggableNext } from "vue-draggable-next";
 
 export default {
@@ -139,11 +144,12 @@ export default {
     const getDoneCount = computed(function () {
       return store.getters.getDoneCount;
     });
+
     return {
       deleteTask,
-      getTask,
       startDrag,
       onDrop,
+      getTask,
       getAllTasks,
       getTodoCount,
       getInProgressCount,
