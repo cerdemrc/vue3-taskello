@@ -16,6 +16,9 @@
                 placeholder="Task"
               />
             </div>
+            <div class="is-danger" v-if="taskError">
+              {{ taskError }}
+            </div>
           </div>
           <div class="col-md-6 mt-3">
             <div class="form-group">
@@ -41,150 +44,31 @@
               </select>
             </div>
           </div>
-          <div class="col-12 mt-5 d-flex justify-content-end">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              @click="closeDialog"
-            >
+          <div class="col-12 mt-5 d-flex justify-content-end gap-2">
+            <button type="button" class="btn close-btn" @click="closeDialog">
               Close
             </button>
-            <button type="button" class="btn btn-danger" @click="saveTask">
+            <button
+              type="button"
+              class="btn save-btn"
+              :disabled="
+                !taskError == '' || !listError == '' || !colorError == ''
+              "
+              @click="saveTask"
+            >
               Add
             </button>
           </div>
         </div>
       </form>
     </div>
-    <!--<ul class="nav">
-      <button
-        type="button"
-        class="btn add-task"
-        data-bs-toggle="modal"
-        data-bs-target="#exampleModal"
-        data-bs-whatever="@mdo"
-      >
-        <i class="bi bi-plus-circle"></i>
-      </button>
-    </ul>
-    <div
-      class="modal fade"
-      id="exampleModal"
-      tabindex="-1"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Add New Task</h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <form>
-              <div class="row">
-                <div
-                  class="col-12"
-                  :class="{ error: v$.newTask.task.$errors.length }"
-                >
-                  <input
-                    class="form-control"
-                    type="text"
-                    placeholder="Task"
-                    v-model="v$.newTask.task.$model"
-                  />
-                  <small class="red--text">Task is required</small>
-                </div>
-                <div
-                  class="col-6 mt-3"
-                  :class="{ error: v$.newTask.list.$errors.length }"
-                >
-                  <select class="form-select" v-model="v$.newTask.list.$model">
-                    <option selected disabled>List</option>
-                    <option v-for="list in lists" :key="list.id">
-                      {{ list.list }}
-                    </option>
-                  </select>
-                  <small class="red--text">List is required</small>
-                </div>
-                <div class="col-6 mt-3">
-                  <select class="form-select" v-model="newTask.color">
-                    <option selected disabled>Color</option>
-                    <option v-for="color in colors" :key="color.id">
-                      {{ color.color }}
-                    </option>
-                  </select>
-                </div>
-              </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-              @click="closeDialog"
-            >
-              Close
-            </button>
-            <button
-              type="button"
-              class="btn btn-danger"
-              @click="saveTask"
-              :disabled="v$.newTask.$invalid"
-            >
-              Add
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>-->
   </div>
 </template>
 
 <script>
-//import useVuelidate from "@vuelidate/core";
-import { ref, reactive } from "vue";
+import { ref, reactive, computed } from "vue";
 import { useStore } from "vuex";
 export default {
-  //  data() {
-  //    return {
-  //      dialog: false,
-  //      newTask: {
-  //        task: null,
-  //        list: "List",
-  //        color: "Color",
-  //      },
-  //    };
-  //  },
-  //  methods: {
-  //    openDialog() {
-  //      this.dialog = true;
-  //    },
-  //    saveTask() {
-  //      const id = Math.floor(Math.random() * 100000);
-  //      this.$store.commit("saveTask", { ...this.newTask, id });
-  //      this.dialog = false;
-
-  //      //cleaning
-  //      this.newTask.task = "";
-  //      this.newTask.list = "List";
-  //      this.newTask.color = "Color";
-  //    },
-  //    closeDialog() {
-  //      this.dialog = false;
-
-  //      //cleaning
-  //      this.newTask.task = "";
-  //      this.newTask.list = "List";
-  //      this.newTask.color = "Color";
-  //    },
-  //  },
   setup() {
     const store = useStore();
     const dialog = ref(false);
@@ -205,13 +89,26 @@ export default {
       { color: "Black", id: "black" },
     ]);
 
+    const taskError = computed(() => {
+      return newTask.task === "" ? "Bu alan zorunludur" : "";
+    });
+
     function openDialog() {
       return (dialog.value = true);
     }
 
     function saveTask() {
       const id = Math.floor(Math.random() * 100000);
-      store.commit("saveTask", { ...this.newTask, id });
+      if (newTask.color == "Color") {
+        const defaultTask = {
+          task: newTask.task,
+          list: 1,
+          color: "black",
+        };
+        store.commit("saveTask", { ...defaultTask, id });
+      } else {
+        store.commit("saveTask", { ...newTask, id });
+      }
       dialog.value = false;
       cleanItem();
     }
@@ -235,6 +132,7 @@ export default {
       openDialog,
       closeDialog,
       saveTask,
+      taskError,
     };
   },
 };
@@ -272,10 +170,30 @@ export default {
   border-radius: 20px;
 }
 
-.red--text {
-  color: rgb(221, 5, 5);
+.is-danger {
+  color: red;
   font-weight: 500;
   padding: 5px;
   font-size: 12px;
+}
+
+.btn:hover {
+  color: #fff;
+}
+
+.save-btn {
+  background: rgba(255, 0, 0, 0.575);
+  color: #fff;
+  &:hover {
+    background: red;
+  }
+}
+
+.close-btn {
+  background: rgba(0, 0, 0, 0.473);
+  color: #fff;
+  &:hover {
+    background: #000;
+  }
 }
 </style>
