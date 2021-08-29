@@ -22,12 +22,6 @@ export const store = createStore({
                 task: "Feed Dog",
                 list: 3,
             },
-            {
-                id: 3,
-                color: "orange",
-                task: "deneme",
-                list: 3,
-            },
           ],
     }),
     getters:{
@@ -54,7 +48,6 @@ export const store = createStore({
     mutations:{
         deleteTask(state, id){
             const index = state.items.findIndex(i => i.id === id);
-            console.log(index)
             state.items.splice(index, 1);
             //localStorage.setItem("tasks", JSON.stringify(state.items));
         },
