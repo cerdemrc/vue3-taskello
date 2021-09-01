@@ -90,7 +90,7 @@ export default {
     ]);
 
     const taskError = computed(() => {
-      return newTask.task === "" ? "Bu alan zorunludur" : "";
+      return newTask.task === "" ? "This field is required" : "";
     });
 
     function openDialog() {
@@ -130,61 +130,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.nav {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 5px;
-}
-.add-task {
-  transform: translate(0, -1px);
-  transition: 0.2s;
-  &:hover {
-    transition: 0.2s;
-    transform: translate(0, 1px);
-  }
-  & i {
-    font-size: 2rem;
-    color: #fff;
-  }
-}
-
-.form-modal {
-  position: absolute;
-  z-index: 99;
-  left: 30%;
-  top: 15%;
-  background: #fff;
-  padding: 30px;
-  width: 40%;
-  margin: 0 auto;
-  border-radius: 20px;
-}
-
-.is-danger {
-  color: red;
-  font-weight: 500;
-  padding: 5px;
-  font-size: 12px;
-}
-
-.btn:hover {
-  color: #fff;
-}
-
-.save-btn {
-  background: rgba(255, 0, 0, 0.575);
-  color: #fff;
-  &:hover {
-    background: red;
-  }
-}
-
-.close-btn {
-  background: rgba(0, 0, 0, 0.473);
-  color: #fff;
-  &:hover {
-    background: #000;
-  }
-}
+@import "../assets/style/header.scss";
 </style>

@@ -160,34 +160,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.card {
-  &-middle {
-    margin: 10px;
-  }
-  &-header {
-    background: #000;
-    color: #fff;
-    font-size: 20px;
-    font-weight: 600;
-  }
-  &-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: #fff;
-    padding: 5px 15px;
-    border-radius: 10px;
-    transform: translate(0, -1px);
-    transition: 0.2s;
-    cursor: move;
-    &:hover {
-      transition: 0.2s;
-      transform: translate(0, 1px);
-    }
-    &-icon {
-      font-size: 1.2rem;
-      color: #fff;
-    }
-  }
-}
+@import "../assets/style/list.scss";
 </style>
