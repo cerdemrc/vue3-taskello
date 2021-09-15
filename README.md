@@ -1,7 +1,10 @@
-# vue3-taskello
-task management app with vue 3 and vite js
+# 🚀 Taskello
 
-## Project setup
+#### Taskello is a task management application coded with vue 3 and vite js.
+#### [Live Demo](https://taskello.vercel.app/)
+
+<h2>🛠️ Project setup</h2>
+
 ```
 npm install
 ```
