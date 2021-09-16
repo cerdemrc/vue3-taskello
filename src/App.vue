@@ -6,13 +6,6 @@
       <List />
     </div>
   </div>
-  <!--<v-app id="app">
-    <Header />
-    <TaskAlert />
-    <v-container>
-      <list />
-    </v-container>
-  </v-app>-->
 </template>
 
 <script>
